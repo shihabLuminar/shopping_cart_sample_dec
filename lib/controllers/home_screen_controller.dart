@@ -7,6 +7,7 @@ import 'package:shopping_cart_may/models/home_screen_models/products_res_model.d
 import 'package:shopping_cart_may/repository/apis/home_screen_service.dart';
 
 class HomeScreenController with ChangeNotifier {
+  bool hasMore = true;
   bool isCategoriesLoading = false; // Loading state for categories
   bool isProductsLoading = false; // Loading state for products
 

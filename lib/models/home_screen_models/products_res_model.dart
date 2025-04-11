@@ -7,8 +7,9 @@ import 'dart:convert';
 ProductsResModel productsResModelFromJson(String str) =>
     ProductsResModel.fromJson(json.decode(str));
 
-String productsResModelToJson(ProductsResModel data) =>
-    json.encode(data.toJson());
+Product productFromjson(String json) {
+  return Product.fromJson(jsonDecode(json));
+}
 
 class ProductsResModel {
   List<Product>? products;
@@ -33,15 +34,6 @@ class ProductsResModel {
         skip: json["skip"],
         limit: json["limit"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "products": products == null
-            ? []
-            : List<dynamic>.from(products!.map((x) => x.toJson())),
-        "total": total,
-        "skip": skip,
-        "limit": limit,
-      };
 }
 
 class Product {

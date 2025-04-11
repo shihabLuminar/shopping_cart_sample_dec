@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_cart_may/controllers/home_screen_controller.dart';
 import 'package:shopping_cart_may/view/cart_screen/cart_screen.dart';
 import 'package:shopping_cart_may/view/product_details_screen/product_details_screen.dart';
+import 'package:shopping_cart_may/view/search_screen/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -101,30 +104,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey.withOpacity(.2)),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.search,
-                                size: 30,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Search anything",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  color: Colors.grey,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SearchScreen(),
+                                ));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            height: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey.withOpacity(.2)),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  size: 30,
                                 ),
-                              )
-                            ],
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Search anything",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -220,7 +232,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          ProductDetailsScreen(),
+                                          ProductDetailsScreen(
+                                        productId: homeScreenController
+                                            .productsList[index].id
+                                            .toString(),
+                                      ),
                                     ));
                               },
                               child: Column(
