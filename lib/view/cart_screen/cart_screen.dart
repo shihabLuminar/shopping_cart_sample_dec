@@ -45,8 +45,30 @@ class _CartScreenState extends State<CartScreen> {
                         .toString(),
                     image:
                         "https://images.pexels.com/photos/28518049/pexels-photo-28518049/free-photo-of-winter-wonderland-by-a-frozen-river.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                    onIncrement: () {},
-                    onDecrement: () {},
+                    onIncrement: () {
+                      int qty = cartScreenController.cartItems[index]
+                          [AppConfig.itemQty];
+                      int id = cartScreenController.cartItems[index]
+                          [AppConfig.primaryKey];
+
+                      qty++;
+                      context
+                          .read<CartScreenController>()
+                          .updateData(qty: qty, id: id);
+                    },
+                    onDecrement: () {
+                      int qty = cartScreenController.cartItems[index]
+                          [AppConfig.itemQty];
+                      int id = cartScreenController.cartItems[index]
+                          [AppConfig.primaryKey];
+
+                      if (qty >= 2) {
+                        qty--;
+                        context
+                            .read<CartScreenController>()
+                            .updateData(qty: qty, id: id);
+                      }
+                    },
                     onRemove: () {
                       context.read<CartScreenController>().deleteData(
                             id: cartScreenController.cartItems[index]
