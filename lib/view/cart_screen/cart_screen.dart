@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopping_cart_may/config/app_config.dart';
+import 'package:shopping_cart_may/controllers/cart_screen_controller.dart';
 import 'package:shopping_cart_may/view/cart_screen/widgets/cart_item_widget.dart';
 
 class CartScreen extends StatefulWidget {
@@ -11,11 +14,17 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) async {
+        await context.read<CartScreenController>().getData();
+      },
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final cartScreenController = context.watch<CartScreenController>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -26,18 +35,28 @@ class _CartScreenState extends State<CartScreen> {
             child: ListView.separated(
                 itemBuilder: (context, index) {
                   return CartItemWidget(
-                    title: "title",
-                    desc: "desc",
-                    qty: "qty",
+                    title: cartScreenController.cartItems[index]
+                        [AppConfig.itemTitle],
+                    desc: cartScreenController.cartItems[index]
+                            [AppConfig.itemPrice]
+                        .toString(),
+                    qty: cartScreenController.cartItems[index]
+                            [AppConfig.itemQty]
+                        .toString(),
                     image:
                         "https://images.pexels.com/photos/28518049/pexels-photo-28518049/free-photo-of-winter-wonderland-by-a-frozen-river.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                     onIncrement: () {},
                     onDecrement: () {},
-                    onRemove: () {},
+                    onRemove: () {
+                      context.read<CartScreenController>().deleteData(
+                            id: cartScreenController.cartItems[index]
+                                [AppConfig.primaryKey],
+                          );
+                    },
                   );
                 },
                 separatorBuilder: (context, index) => SizedBox(height: 15),
-                itemCount: 2)),
+                itemCount: cartScreenController.cartItems.length)),
       ),
     );
   }

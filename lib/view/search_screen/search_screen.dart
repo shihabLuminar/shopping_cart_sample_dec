@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_cart_may/controllers/search_screen_contorller.dart';
+import 'package:shopping_cart_may/view/product_details_screen/product_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -54,28 +55,40 @@ class _SearchScreenState extends State<SearchScreen> {
               },
             ),
             Expanded(
-                child: searchScreenController.isSearching
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : ListView.separated(
-                        controller: controller,
-                        itemBuilder: (context, index) => ListTile(
-                              leading: Image.network(
-                                  width: 80,
-                                  height: 80,
-                                  searchScreenController
-                                      .productsList[index].thumbnail
-                                      .toString()),
-                              title: Text(searchScreenController
-                                  .productsList[index].title
-                                  .toString()),
-                              subtitle: Text("Price"),
-                            ),
-                        separatorBuilder: (context, index) => SizedBox(
-                              height: 10,
-                            ),
-                        itemCount: searchScreenController.productsList.length)),
+              child: searchScreenController.isSearching
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.separated(
+                      controller: controller,
+                      itemBuilder: (context, index) => ListTile(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductDetailsScreen(
+                                      productId: searchScreenController
+                                          .productsList[index].id
+                                          .toString(),
+                                    ),
+                                  ));
+                            },
+                            leading: Image.network(
+                                width: 80,
+                                height: 80,
+                                searchScreenController
+                                    .productsList[index].thumbnail
+                                    .toString()),
+                            title: Text(searchScreenController
+                                .productsList[index].title
+                                .toString()),
+                            subtitle: Text("Price"),
+                          ),
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 10,
+                          ),
+                      itemCount: searchScreenController.productsList.length),
+            ),
             if (searchScreenController.isMoreLoading)
               Center(
                 child: CircularProgressIndicator(),

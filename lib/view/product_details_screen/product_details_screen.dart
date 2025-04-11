@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_cart_may/controllers/cart_screen_controller.dart';
 import 'package:shopping_cart_may/controllers/porducty_details_screen_contorller.dart';
 import 'package:shopping_cart_may/view/cart_screen/cart_screen.dart';
 
@@ -165,11 +166,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CartScreen(),
-                                ));
+                            context
+                                .read<CartScreenController>()
+                                .addData(
+                                    productDetailsController.productDetails!)
+                                .then(
+                              (value) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CartScreen(),
+                                    ));
+                              },
+                            );
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(
