@@ -169,7 +169,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             context
                                 .read<CartScreenController>()
                                 .addData(
-                                    productDetailsController.productDetails!)
+                                    productDetailsController.productDetails!,
+                                    context)
                                 .then(
                               (value) {
                                 Navigator.push(
